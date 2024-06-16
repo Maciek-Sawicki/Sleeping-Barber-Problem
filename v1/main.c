@@ -7,7 +7,7 @@
 #include <time.h>
 
 // Liczba krzeseł w poczekalni
-#define NUM_CHAIRS 2
+#define NUM_CHAIRS 5
 
 // Maksymalny czas strzyżenia
 #define MAX_HAIRCUT_TIME 1
@@ -70,7 +70,7 @@ void* barber(void* arg) {
 
             // Symulacja strzyżenia
             printf("Fryzjer: Rozpoczynam strzyżenie klienta %d\n", current_customer);
-            sleep(rand() % MAX_HAIRCUT_TIME);
+            sleep(rand() % MAX_HAIRCUT_TIME + 1);
             printf("Fryzjer: Zakończyłem strzyżenie klienta %d\n", current_customer);
         }
     }
@@ -80,18 +80,18 @@ void* barber(void* arg) {
 // Funkcja klienta
 void* customer(void* arg) {
     int customer_id = *(int*)arg;
-    //printf("Klient %d: Przyszedłem do salonu.\n", customer_id);
+    printf("Klient %d: Przyszedłem do salonu.\n", customer_id);
 
     pthread_mutex_lock(&mutex);
     if (waiting_customers < NUM_CHAIRS) {
         waiting_customers++;
         waiting_queue[waiting_count++] = customer_id;
-        //printf("Klient %d: Siadam w poczekalni. Klientów w poczekalni: %d\n", customer_id, waiting_customers);
+        printf("Klient %d: Siadam w poczekalni. Klientów w poczekalni: %d\n", customer_id, waiting_customers);
 
         // Jeśli fryzjer śpi (czyli nie obsługuje klienta i nie czeka na klienta), obudź go
         if (waiting_count == 1) {
             sem_post(&barber_ready);  // Obudź fryzjera, gdy klient zajmie miejsce w poczekalni
-            printf("Klient: Obudziłem fryzjera\n");
+            printf("Klient %d: Obudziłem fryzjera.\n", customer_id);
         }
 
         // Wyświetlanie stanu po zajęciu miejsca w poczekalni
@@ -161,7 +161,7 @@ int main(int argc, char* argv[]) {
     for (int i = 0; i < MAX_THREADS; i++) {
         customer_ids[i] = i + 1;
         pthread_create(&customer_threads[i], NULL, customer, &customer_ids[i]);
-        sleep(rand() % (MAX_HAIRCUT_TIME + 1));  // Klienci przychodzą w losowych odstępach czasu
+        sleep(rand() % (1 + 1));  // Klienci przychodzą w losowych odstępach czasu
     }
 
     // Czekanie na zakończenie wątków klientów
