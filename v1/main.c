@@ -8,10 +8,9 @@
 
 // Liczba krzeseł w poczekalni
 #define NUM_CHAIRS 5
-
 // Maksymalny czas strzyżenia
-#define MAX_HAIRCUT_TIME 1
-
+#define MAX_HAIRCUT_TIME 2
+// Maksymalna liczba wątków
 #define MAX_THREADS 50
 
 // Semafory i mutex
@@ -25,7 +24,6 @@ int waiting_count = 0;
 int rejected_customers[100];
 int rejected_count = 0;
 
-// Flaga dla trybu informacji
 int info_mode = 0;
 
 // Liczba klientów w poczekalni i rezygnacji

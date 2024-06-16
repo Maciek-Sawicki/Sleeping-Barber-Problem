@@ -29,4 +29,5 @@ Sposób wykorzystania: Klient wchodzący do poczekalni sprawdza, czy fryzjer śp
 ### Semafor (sem_t customer_ready):
 
 Przeznaczenie: Semafor customer_ready sygnalizuje, że klient jest gotowy do wejścia na fotel fryzjerski.
+
 Sposób wykorzystania: Gdy fryzjer wybiera klienta do strzyżenia, zwiększa semafor (sem_post), sygnalizując klientowi, że może usiąść na fotelu. Klient czeka (sem_wait), aż fryzjer będzie gotowy go przyjąć
